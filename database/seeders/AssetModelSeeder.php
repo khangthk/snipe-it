@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Actionlog;
 use App\Models\AssetModel;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -12,6 +13,12 @@ class AssetModelSeeder extends Seeder
 {
     public function run()
     {
+        // Truncate reuses the same auto-increment IDs on the next
+        // seed, so action_logs from prior runs still point at those IDs
+        // and show up as stale "create" entries in the History tab.
+        // Scoped delete on the leading column of the composite index
+        // (item_type, item_id, action_type) — single indexed range op.
+        Actionlog::where('item_type', AssetModel::class)->delete();
         AssetModel::truncate();
 
         $admin = User::where('permissions->superuser', '1')->first() ?? User::factory()->firstAdmin()->create();
@@ -51,8 +58,6 @@ class AssetModelSeeder extends Seeder
         $del_files = Storage::files($dst);
 
         foreach ($del_files as $del_file) { // iterate files
-            $file_to_delete = str_replace($src, '', $del_file);
-            Log::debug('Deleting: '.$file_to_delete);
             try {
                 Storage::disk('public')->delete($dst.$del_file);
             } catch (\Exception $e) {
@@ -63,7 +68,6 @@ class AssetModelSeeder extends Seeder
         $add_files = glob($src.'/*.*');
         foreach ($add_files as $add_file) {
             $file_to_copy = str_replace($src, '', $add_file);
-            Log::debug('Copying: '.$file_to_copy);
             try {
                 Storage::disk('public')->put($dst.$file_to_copy, file_get_contents($src.$file_to_copy));
             } catch (\Exception $e) {

@@ -3,8 +3,8 @@
 namespace App\Observers;
 
 use App\Models\Actionlog;
+use App\Models\CheckoutAcceptance;
 use App\Models\Consumable;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
@@ -13,14 +13,13 @@ class ConsumableObserver
     /**
      * Listen to the User created event.
      *
-     * @param  Consumable  $consumable
      * @return void
      */
     public function updated(Consumable $consumable)
     {
 
         $changed = [];
-        
+
         foreach ($consumable->getRawOriginal() as $key => $value) {
             // Check and see if the value changed
             if ($consumable->getRawOriginal()[$key] != $consumable->getAttributes()[$key]) {
@@ -30,7 +29,7 @@ class ConsumableObserver
         }
 
         if (count($changed) > 0) {
-            $logAction = new Actionlog();
+            $logAction = new Actionlog;
             $logAction->item_type = Consumable::class;
             $logAction->item_id = $consumable->id;
             $logAction->created_at = date('Y-m-d H:i:s');
@@ -44,32 +43,28 @@ class ConsumableObserver
      * Listen to the Consumable created event when
      * a new consumable is created.
      *
-     * @param  Consumable  $consumable
      * @return void
      */
     public function created(Consumable $consumable)
     {
-        $logAction = new Actionlog();
-        $logAction->item_type = Consumable::class;
-        $logAction->item_id = $consumable->id;
-        $logAction->created_at = date('Y-m-d H:i:s');
-        $logAction->created_by = auth()->id();
-        if($consumable->imported) {
-            $logAction->setActionSource('importer');
-        }
-        $logAction->logaction('create');
+        $consumable->writeInitialInventoryCreate();
     }
 
     /**
      * Listen to the Consumable deleting event.
      *
-     * @param  Consumable  $consumable
      * @return void
      */
     public function deleting(Consumable $consumable)
     {
 
         $consumable->users()->detach();
+
+        CheckoutAcceptance::pending()
+            ->where('checkoutable_type', Consumable::class)
+            ->where('checkoutable_id', $consumable->id)
+            ->delete();
+
         $uploads = $consumable->uploads;
 
         foreach ($uploads as $file) {
@@ -81,8 +76,6 @@ class ConsumableObserver
             }
         }
 
-
-
         try {
             Storage::disk('public')->delete('consumables/'.$consumable->image);
         } catch (\Exception $e) {
@@ -92,9 +85,7 @@ class ConsumableObserver
         $consumable->image = null;
         $consumable->save();
 
-
-
-        $logAction = new Actionlog();
+        $logAction = new Actionlog;
         $logAction->item_type = Consumable::class;
         $logAction->item_id = $consumable->id;
         $logAction->created_at = date('Y-m-d H:i:s');

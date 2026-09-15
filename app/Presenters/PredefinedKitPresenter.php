@@ -9,6 +9,7 @@ class PredefinedKitPresenter extends Presenter
 {
     /**
      * Json Column Layout for bootstrap table of kits
+     *
      * @return string
      */
     public static function dataTableLayout()
@@ -16,6 +17,7 @@ class PredefinedKitPresenter extends Presenter
         $layout = [
             [
                 'field' => 'id',
+                'scope' => 'col',
                 'searchable' => false,
                 'sortable' => true,
                 'switchable' => true,
@@ -23,12 +25,14 @@ class PredefinedKitPresenter extends Presenter
                 'visible' => false,
             ], [
                 'field' => 'name',
+                'scope' => 'col',
                 'searchable' => true,
                 'sortable' => true,
                 'title' => trans('general.name'),
                 'formatter' => 'kitsLinkFormatter',
             ], [
                 'field' => 'created_by',
+                'scope' => 'col',
                 'searchable' => false,
                 'sortable' => true,
                 'title' => trans('general.created_by'),
@@ -36,6 +40,7 @@ class PredefinedKitPresenter extends Presenter
                 'formatter' => 'usersLinkObjFormatter',
             ], [
                 'field' => 'created_at',
+                'scope' => 'col',
                 'searchable' => true,
                 'sortable' => true,
                 'switchable' => true,
@@ -44,6 +49,7 @@ class PredefinedKitPresenter extends Presenter
                 'formatter' => 'dateDisplayFormatter',
             ], [
                 'field' => 'updated_at',
+                'scope' => 'col',
                 'searchable' => true,
                 'sortable' => true,
                 'switchable' => true,
@@ -55,21 +61,25 @@ class PredefinedKitPresenter extends Presenter
 
         $layout[] = [
             'field' => 'checkincheckout',
+            'scope' => 'col',
             'searchable' => false,
             'sortable' => false,
             'switchable' => true,
             'title' => trans('general.checkin').'/'.trans('general.checkout'),
             'visible' => true,
             'formatter' => 'kitsInOutFormatter',
+            'printIgnore' => true,
         ];
 
         $layout[] = [
             'field' => 'actions',
+            'scope' => 'col',
             'searchable' => false,
             'sortable' => false,
             'switchable' => false,
             'title' => trans('table.actions'),
             'formatter' => 'kitsActionsFormatter',
+            'printIgnore' => true,
         ];
 
         return json_encode($layout);
@@ -77,6 +87,7 @@ class PredefinedKitPresenter extends Presenter
 
     /**
      * Json Column Layout for bootstrap table of kit models
+     *
      * @return string
      */
     public static function dataTableModels()
@@ -84,6 +95,7 @@ class PredefinedKitPresenter extends Presenter
         $layout = [
             [
                 'field' => 'id',
+                'scope' => 'col',
                 'searchable' => false,
                 'sortable' => true,
                 'switchable' => true,
@@ -91,6 +103,7 @@ class PredefinedKitPresenter extends Presenter
                 'visible' => false,
             ], [
                 'field' => 'pivot_id',
+                'scope' => 'col',
                 'searchable' => false,
                 'sortable' => true,
                 'switchable' => true,
@@ -98,6 +111,7 @@ class PredefinedKitPresenter extends Presenter
                 'visible' => false,
             ], [
                 'field' => 'owner_id',
+                'scope' => 'col',
                 'searchable' => false,
                 'sortable' => true,
                 'switchable' => true,
@@ -105,22 +119,26 @@ class PredefinedKitPresenter extends Presenter
                 'visible' => false,
             ], [
                 'field' => 'name',
+                'scope' => 'col',
                 'searchable' => true,
                 'sortable' => true,
                 'title' => trans('general.name'),
                 'formatter' => 'modelsLinkFormatter',
             ], [
                 'field' => 'quantity',
+                'scope' => 'col',
                 'searchable' => false,
                 'sortable' => false,
                 'title' => trans('general.quantity'),
             ], [
                 'field' => 'actions',
+                'scope' => 'col',
                 'searchable' => false,
                 'sortable' => false,
                 'switchable' => false,
                 'title' => trans('table.actions'),
                 'formatter' => 'kits_modelsActionsFormatter',
+                'printIgnore' => true,
             ],
         ];
 
@@ -129,6 +147,7 @@ class PredefinedKitPresenter extends Presenter
 
     /**
      * Json Column Layout for bootstrap table of kit licenses
+     *
      * @return string
      */
     public static function dataTableLicenses()
@@ -136,6 +155,7 @@ class PredefinedKitPresenter extends Presenter
         $layout = [
             [
                 'field' => 'id',
+                'scope' => 'col',
                 'searchable' => false,
                 'sortable' => true,
                 'switchable' => true,
@@ -143,6 +163,7 @@ class PredefinedKitPresenter extends Presenter
                 'visible' => false,
             ], [
                 'field' => 'pivot_id',
+                'scope' => 'col',
                 'searchable' => false,
                 'sortable' => true,
                 'switchable' => true,
@@ -150,6 +171,7 @@ class PredefinedKitPresenter extends Presenter
                 'visible' => false,
             ], [
                 'field' => 'owner_id',
+                'scope' => 'col',
                 'searchable' => false,
                 'sortable' => true,
                 'switchable' => true,
@@ -157,22 +179,26 @@ class PredefinedKitPresenter extends Presenter
                 'visible' => false,
             ], [
                 'field' => 'name',
+                'scope' => 'col',
                 'searchable' => true,
                 'sortable' => true,
                 'title' => trans('general.name'),
                 'formatter' => 'licensesLinkFormatter',
             ], [
                 'field' => 'quantity',
+                'scope' => 'col',
                 'searchable' => false,
                 'sortable' => false,
                 'title' => trans('general.quantity'),
             ], [
                 'field' => 'actions',
+                'scope' => 'col',
                 'searchable' => false,
                 'sortable' => false,
                 'switchable' => false,
                 'title' => trans('table.actions'),
                 'formatter' => 'kits_licensesActionsFormatter',
+                'printIgnore' => true,
             ],
         ];
 
@@ -181,6 +207,7 @@ class PredefinedKitPresenter extends Presenter
 
     /**
      * Json Column Layout for bootstrap table of kit accessories
+     *
      * @return string
      */
     public static function dataTableAccessories()
@@ -188,6 +215,7 @@ class PredefinedKitPresenter extends Presenter
         $layout = [
             [
                 'field' => 'id',
+                'scope' => 'col',
                 'searchable' => false,
                 'sortable' => true,
                 'switchable' => true,
@@ -195,6 +223,7 @@ class PredefinedKitPresenter extends Presenter
                 'visible' => false,
             ], [
                 'field' => 'pivot_id',
+                'scope' => 'col',
                 'searchable' => false,
                 'sortable' => true,
                 'switchable' => true,
@@ -202,6 +231,7 @@ class PredefinedKitPresenter extends Presenter
                 'visible' => false,
             ], [
                 'field' => 'owner_id',
+                'scope' => 'col',
                 'searchable' => false,
                 'sortable' => true,
                 'switchable' => true,
@@ -209,22 +239,26 @@ class PredefinedKitPresenter extends Presenter
                 'visible' => false,
             ], [
                 'field' => 'name',
+                'scope' => 'col',
                 'searchable' => true,
                 'sortable' => true,
                 'title' => trans('general.name'),
                 'formatter' => 'accessoriesLinkFormatter',
             ], [
                 'field' => 'quantity',
+                'scope' => 'col',
                 'searchable' => false,
                 'sortable' => false,
                 'title' => trans('general.quantity'),
             ], [
                 'field' => 'actions',
+                'scope' => 'col',
                 'searchable' => false,
                 'sortable' => false,
                 'switchable' => false,
                 'title' => trans('table.actions'),
                 'formatter' => 'kits_accessoriesActionsFormatter',
+                'printIgnore' => true,
             ],
         ];
 
@@ -233,6 +267,7 @@ class PredefinedKitPresenter extends Presenter
 
     /**
      * Json Column Layout for bootstrap table of kit consumables
+     *
      * @return string
      */
     public static function dataTableConsumables()
@@ -240,6 +275,7 @@ class PredefinedKitPresenter extends Presenter
         $layout = [
             [
                 'field' => 'id',
+                'scope' => 'col',
                 'searchable' => false,
                 'sortable' => true,
                 'switchable' => true,
@@ -247,6 +283,7 @@ class PredefinedKitPresenter extends Presenter
                 'visible' => false,
             ], [
                 'field' => 'pivot_id',
+                'scope' => 'col',
                 'searchable' => false,
                 'sortable' => true,
                 'switchable' => true,
@@ -254,6 +291,7 @@ class PredefinedKitPresenter extends Presenter
                 'visible' => false,
             ], [
                 'field' => 'owner_id',
+                'scope' => 'col',
                 'searchable' => false,
                 'sortable' => true,
                 'switchable' => true,
@@ -261,22 +299,26 @@ class PredefinedKitPresenter extends Presenter
                 'visible' => false,
             ], [
                 'field' => 'name',
+                'scope' => 'col',
                 'searchable' => true,
                 'sortable' => true,
                 'title' => trans('general.name'),
                 'formatter' => 'consumablesLinkFormatter',
             ], [
                 'field' => 'quantity',
+                'scope' => 'col',
                 'searchable' => false,
                 'sortable' => false,
                 'title' => trans('general.quantity'),
             ], [
                 'field' => 'actions',
+                'scope' => 'col',
                 'searchable' => false,
                 'sortable' => false,
                 'switchable' => false,
                 'title' => trans('table.actions'),
                 'formatter' => 'kits_consumablesActionsFormatter',
+                'printIgnore' => true,
             ],
         ];
 
@@ -285,11 +327,17 @@ class PredefinedKitPresenter extends Presenter
 
     /**
      * Link to this kit Name
+     *
      * @return string
      */
     public function nameUrl()
     {
-        return (string) link_to_route('kits.show', $this->name, $this->id);
+        if (auth()->user()->can('view', ['\App\Models\PredefinedKit', $this])) {
+            return '<a href="'.route('kits.show', $this->id).'">'.e($this->display_name).'</a>';
+        } else {
+            return e($this->display_name);
+        }
+
     }
 
     /**
@@ -302,6 +350,7 @@ class PredefinedKitPresenter extends Presenter
 
     /**
      * Url to view this item.
+     *
      * @return string
      */
     public function viewUrl()
